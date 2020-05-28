@@ -2,8 +2,9 @@ import csv
 import time
 import random
 
-def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or'She'= 'All', Key:str or int = ..., increase:bool=True, Recommend:bool=False, StepPrint:'no'or'time'or'all'='no', Wating_sec:float=60 ):
-    if StepPrint != ('no'or'time'or'all'):
+# Key값은 [ 첫번째 키, 두번째 키, ...] 이런 식으로 입력해주세요
+def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or'She'= 'All', Key:int=0, increase:bool=True, Recommend:bool=False, StepPrint:'no'or'time'or'all'='no', Wating_sec:float=60 ):
+    if StepPrint != 'no' and StepPrint != 'time' and StepPrint != 'all':
         print('StepPrint를 확인해주세요')
         return data
     ##### 정렬 이름 : 정렬 정의                                             : 공간복잡도 : 시간복잡도
@@ -25,10 +26,10 @@ def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or
                 if j[0] == len(result)-i[0]-1:      # Round는 매 Wave의 미정렬 원소 끝에 도달하면 탈출 == 총 길이 - 정렬길이
                     break
                 
-                if result[j[0]] > result[j[0]+1] and increase==True:    # 비교 후 이후 값이 더 작다면 치환(오름차순 옵션)
+                if result[j[0]][Key[0]] > result[j[0]+1][Key[0]] and increase==True:    # 비교 후 이후 값이 더 작다면 치환(오름차순 옵션)
                     result[j[0]], result[j[0]+1] = result[j[0]+1], result[j[0]]
 
-                if result[j[0]] < result[j[0]+1] and increase==False:   # 비교 후 이후 값이 더 크다면 치환(오름차순 옵션)
+                if result[j[0]][Key[0]] < result[j[0]+1][Key[0]] and increase==False:   # 비교 후 이후 값이 더 크다면 치환(오름차순 옵션)
                     result[j[0]], result[j[0]+1] = result[j[0]+1], result[j[0]]
 
                 if StepPrint != 'no': print('Bubble     : Wave %3d  Round %3d    time : %3.8f    '%(i[0]+1,j[0]+1, time.time()-start), end='')
@@ -125,7 +126,7 @@ def main():
     #    Test.append(random.randint(1,100))
 
     #print(Test)
-    Total__Sort(Test, 'Bub', Key=[1], StepPrint='all', Wating_sec=10)
+    Total__Sort(Test, 'Bub', Key=[0], StepPrint='all', Wating_sec=10)
     #print("\n\n%s"%(Result))
 
     # 글 번호(업소 아이디) 순 정렬
@@ -141,7 +142,7 @@ def main():
             continue
         DATASET.append(i)
     
-    print(DATASET)
+    #print(DATASET)
 
     
     i, j = 0, 0
