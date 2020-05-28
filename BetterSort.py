@@ -2,11 +2,13 @@ import csv
 import time
 import random
 
-def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or'She'= 'All', Key:str or int = ..., increase:bool=True, Recommend:bool=False, StepPrint:bool=False, Wating_sec:float=60 ):
-    
-    # 정렬 이름 : 정렬 정의                                             : 공간복잡도 : 시간복잡도
+def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or'She'= 'All', Key:str or int = ..., increase:bool=True, Recommend:bool=False, StepPrint:'no'or'time'or'all'='no', Wating_sec:float=60 ):
+    if StepPrint != ('no'or'time'or'all'):
+        print('StepPrint를 확인해주세요')
+        return data
+    ##### 정렬 이름 : 정렬 정의                                             : 공간복잡도 : 시간복잡도
 
-    # 버블 정렬 : 인접한 두 값을 비교해 자리를 바꿔준다                 : N          : N^2
+    ##### 버블 정렬 : 인접한 두 값을 비교해 자리를 바꿔준다                 : N          : N^2
     if   SortName == 'Bub'or'All':
         start = time.time()
         result = data
@@ -18,7 +20,7 @@ def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or
 
             if i[0] == len(result)-1 :           # Wave는 마지막 원소에 도달하면 탈출
                 break
-            if StepPrint == True: print()
+            if StepPrint != 'no': print()
             for j in enumerate(result):
                 if j[0] == len(result)-i[0]-1:      # Round는 매 Wave의 미정렬 원소 끝에 도달하면 탈출 == 총 길이 - 정렬길이
                     break
@@ -29,12 +31,14 @@ def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or
                 if result[j[0]] < result[j[0]+1] and increase==False:   # 비교 후 이후 값이 더 크다면 치환(오름차순 옵션)
                     result[j[0]], result[j[0]+1] = result[j[0]+1], result[j[0]]
 
-                if StepPrint == True: print('Bubble     : Wave %3d  Round %3d    time : %3.8f    %s'%(i[0]+1,j[0]+1, time.time()-start, result))
+                if StepPrint != 'no': print('Bubble     : Wave %3d  Round %3d    time : %3.8f    '%(i[0]+1,j[0]+1, time.time()-start), end='')
+                if StepPrint == 'time': print()
+                if StepPrint == 'all': print(result)
         
         print('버블 정렬 성공. 소요 시간 : %3.8f'%(time.time()-start))
         if SortName != 'All':
             return result
-    # 선택 정렬 : 끝 값을 검색해 저장, 남은 부분 반복                   : N          : N^2
+    ##### 선택 정렬 : 끝 값을 검색해 저장, 남은 부분 반복                   : N          : N^2
     elif SortName == 'Sel'or'All':
         start = time.time()
         result = data
@@ -48,7 +52,7 @@ def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or
 
             if i[0] == len(result)-1 :           # Wave는 마지막 원소에 도달하면 탈출
                 break
-            if StepPrint == True: print()
+            if StepPrint != 'no': print()
             for j in enumerate(result):
                 if j[0] == len(result)-i[0]-1:      # Round는 매 Wave의 미정렬 원소 끝에 도달하면 탈출 == 총 길이 - 정렬길이
                     break
@@ -59,7 +63,7 @@ def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or
                 if result[j[0]] < tmp and increase==False:   # 비교 후 이후 값이 더 크다면 저장(내림차순 옵션)
                     tmp = result[j[0]]
 
-                if StepPrint == True: print('Selection  : Wave %3d  Round %3d    time : %3.8f    %s'%(i[0]+1,j[0]+1, time.time()-start, result))
+                if StepPrint != 'no': print('Selection  : Wave %3d  Round %3d    time : %3.8f    %s'%(i[0]+1,j[0]+1, time.time()-start, result))
         
         print('선택 정렬 성공. 소요 시간 : %3.8f'%(time.time()-start))
         if SortName != 'All':
@@ -105,6 +109,7 @@ def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or
         return result
     else:
         print('SortName을 확인해주세요')
+        return data
 
 
 def main():
@@ -114,35 +119,43 @@ def main():
     #Test = ['f', 'g', 'a', 'r', 'h', 'x']
     #Test = ['ㅎ', 'ㅁ', 'ㄷ', 'ㄴ', 'ㄱ']
     #Test = ['해', '하', '황', '곤', '공']
-    #Test = ['하늘', '하지', '가람', '미숫가루', '가리비']
-    Test = []
-    for i in range(1000):
-        Test.append(random.randint(1,100))
+    Test = [[5, '하늘'], [3, '하지'], [2, '가람'], [4, '미숫가루'], [1, '가리비']]
+    #Test = []
+    #for i in range(1000):
+    #    Test.append(random.randint(1,100))
 
     #print(Test)
-    Result = Total__Sort(Test, 'Sel', StepPrint=False, Wating_sec=.8)
+    Total__Sort(Test, 'Bub', Key=[1], StepPrint='all', Wating_sec=10)
     #print("\n\n%s"%(Result))
 
-    '''
     # 글 번호(업소 아이디) 순 정렬
     f = open('서울시 가격안정 모범업소 상품목록 현황.csv', 'r')     # 업소id / 업소명 / 분류코드 / 분류명 / 주소 / 전화번호 / 추천수 / 상품명 / 가격 
+    w = open('정렬 결과.csv', 'w', encoding='EUC-KR')
     DATASET = []
     F = csv.reader(f)
+    Col = []
 
-    for i in F:
-        if len(DATASET) == 0:
-            for j in range(len(i)):
-                DATASET.append(i[0])
+    for i in F:                         # csv를 2차원 배열로 입력
+        if len(Col) == 0:
+            Col.append(i)
+            continue
+        DATASET.append(i)
+    
+    print(DATASET)
 
+    
+    i, j = 0, 0
+    for i in range(len(DATASET)):       # 2차원 배열을 csv로 출력
+        for j in range(len(DATASET[0])):
+            w.write(DATASET[i][j])
+            w.write(', ')
+        w.write('\n')
 
-    # 0. 데이터 셋, [기준 컬럼1, 기준컬럼2, ...]  1. 특정 정렬 / 모든 정렬  (++소요시간표시)  2. 오름차순 설정 
-    # 3. 모든 정렬 시 추천 표시 여부  4. 정렬 과정 출력 여부  5. 정렬 최대 몇 초까지 기다려볼건지(기본 60초)
-    #Total__Sort(DATASET, ['업소명', '상품명'], 'All') 
     #sorted()
 
-
+    w.close()
     f.close()
-    '''
+
 
 if __name__ == "__main__":
     main()
