@@ -13,10 +13,13 @@ def M_Col(Matrix, col:int):
     return ret
 
 # Key값은 [ 첫번째 키, 두번째 키, ...] 이런 식으로 입력해주세요
-def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or'She'= 'All', Key:int=0, increase:bool=True, Recommend:bool=False, StepPrint:'no'or'time'or'all'='no', Wating_sec:float=60 ):
+def Total__Sort(data, SortName:'All'or'Bub'or'Sel'or'Ins'or'Qui'or'Mer'or'Hea'or'She'= 'All', Key:int=[0], increase:bool=True, Recommend:bool=False, StepPrint:'no'or'time'or'all'='no', Wating_sec:float=60 ):
     if StepPrint != 'no' and StepPrint != 'time' and StepPrint != 'all':
         print('StepPrint를 확인해주세요')
         return data
+    if type(data[0][Key[0]]) != int and data[0][Key[0]].isdecimal() == True :
+        for roop in range(len(data)): 
+            data[roop][Key[0]] = int(data[roop][Key[0]])
     ##### 정렬 이름 : 정렬 정의                                             : 공간복잡도 : 시간복잡도
 
     ##### 버블 정렬 : 인접한 두 값을 비교해 자리를 바꿔준다                 : N          : N^2
@@ -144,7 +147,7 @@ def main():
     '''
     Test = [[4, 'ㄹ'], [3, 'ㄷ'], [1, 'ㄱ'], [2, 'ㄴ'], [5, 'ㅁ']]
     
-    Total__Sort(Test, 'Ins', Key=[0], StepPrint='time', Wating_sec=10)
+    Total__Sort(Test, 'Ins', Key=[0], StepPrint='all', Wating_sec=10)
     #print("\n\n%s"%(Result))
 
     # 글 번호(업소 아이디) 순 정렬
@@ -160,13 +163,12 @@ def main():
             continue
         DATASET.append(i)
     
-    #print(DATASET)
-
+    sort_data = Total__Sort(DATASET, 'Ins')
     
     i, j = 0, 0
-    for i in range(len(DATASET)):       # 2차원 배열을 csv로 출력
-        for j in range(len(DATASET[0])):
-            w.write(DATASET[i][j])
+    for i in range(len(sort_data)):       # 2차원 배열을 csv로 출력
+        for j in range(len(sort_data[0])):
+            w.write(str(sort_data[i][j]))
             w.write(', ')
         w.write('\n')
 
